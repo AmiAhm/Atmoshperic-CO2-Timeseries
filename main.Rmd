@@ -1,12 +1,12 @@
 ---
-title: "TMA4285 Timeseries, Exercise 3"
+title: "Timeseries model of atmospheric CO2"
 author: "Marius Dioli, Amir Ahmed and Andreas Ferstad"
 date: "September 2019"
 output:
+  html_document: default
+  word_document: default
   pdf_document:
       fig_caption: yes
-  word_document: default
-  html_document: default
 bibliography: bibliography.bib
 nocite: '@*'
   
@@ -50,7 +50,7 @@ library(DescTools)
  This article presents the basics of time series analysis, and applies it to model monthly average atmospheric CO2 levels observed at Mauna Loa Observatory, Hawaii, U.S. 
 
 # Introduction
-Carbon dioxide levels have been monitored since 1958 at the Mauna Loa Observatory, located in the Pacific Ocean on top of Hawaii’s biggest volcano. CO2 is a green-house gas, and as humans burn fossile fuels, more is added to the atmosphere. As a consequence we have since the industrial revolution seen an increase in global average temperature. In the Paris agreement one targeted to stay below a 2C increase, commonly that has been seen to be equivalent to about 450ppm in atmospheric CO2. In this article we will use theory on time series to model CO2 levels measured at the observatory, with the goal of forecasting future levels, and to predict when, if development continues as today, when will reach the 450ppm roof. For analysis, we will focus on flask measurements taken on a monthly basis as we are interested in predicting the long-term trend. 
+Carbon dioxide levels have been monitored since 1958 at the Mauna Loa Observatory, located in the Pacific Ocean on top of Hawaii's biggest volcano. CO2 is a green-house gas, and as humans burn fossile fuels, more is added to the atmosphere. As a consequence we have since the industrial revolution seen an increase in global average temperature. In the Paris agreement one targeted to stay below a 2C increase, commonly that has been seen to be equivalent to about 450ppm in atmospheric CO2. In this article we will use theory on time series to model CO2 levels measured at the observatory, with the goal of forecasting future levels, and to predict when, if development continues as today, when will reach the 450ppm roof. For analysis, we will focus on flask measurements taken on a monthly basis as we are interested in predicting the long-term trend. 
 
 # Theory
 We note that large parts of the theory presented here, is based on Brockwell and Davis. 
@@ -411,7 +411,7 @@ coefs.summary
 
 
 ## Forecasting with bootstrapping
-Bootstrapping can also be used to obtain prediction interval as the ones gained with traditional methods is often too narrow.[@hyndman_athanasopoulos_2018]. We again used blocked bootstrapping.
+Bootstrapping can also be used to obtain prediction interval as the ones gained with traditional methods is often too narrow. We again use blocked bootstrapping.
 
 The methods used in this section is adapted from Hyndman and Athanasopoulos's  bootstrapping and bagging chapter. 
 
@@ -443,11 +443,11 @@ while(i <= n.bootstrap){
   i = i + 1
 }
 
-write.table(future,file="future_bootstrapNew.txt") # keeps the rownames
+write.table(future,file="future_bootstrap.txt") # keeps the rownames
 ```
 
 ```{r include=FALSE}
-future <- read.table("future_bootstrapNew.txt",header=TRUE,row.names=1)
+future <- read.table("future_bootstrap.txt",header=TRUE,row.names=1)
 
 d <- data.frame(monthly_flask2$Yr, monthly_flask2$Mn, monthly_flask2$CO2_filled)
 names(d) <- c("Year", "Month", "CO2")
